@@ -17,17 +17,18 @@ server.use(cors({
 server.use(express.json())
 server.use(cookieParser())
 // use routes in server
-server.use(routes)
+server.use('/api', routes)
 //start server to listen client request to that port/available server in internet
 const PORT = process.env.PORT
 server.listen(PORT,()=>{
     console.log('Server started & waiting for the client request');
 })
-//error handling global
-server.use((err,req,res,next)=>{
-    res.status(500).json(err.message)
-})
+
 //resolve API (get request to http://localhost:3000/  using Express)
 server.get('/',(req,res)=>{
     res.status(200).send(`<h1>Server started & waiting for the client request</h1>`)
+})
+//error handling global
+server.use((err,req,res,next)=>{
+    res.status(500).json(err.message)
 })

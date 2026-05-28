@@ -12,6 +12,8 @@ router.post('/register',userController.registerController)
 router.post('/login', userController.loginController)
 //get single
 router.get("/user/:id",authMiddleware,userController.getUserController)
+//logout
+router.post("/logout",userController.logOutController)
 // ------------------------------------------------------------------------------------------------------------//
 
 //order
@@ -27,7 +29,7 @@ router.put("/one-order/:id",authMiddleware,orderController.updateOrderController
 
 //table
 //add table
-router.post("/add-table/:id",authMiddleware,tableController.addTableController)
+router.post("/add-table",authMiddleware,tableController.addTableController)
 //get all table
 router.get("/all-table",authMiddleware,tableController.getTablesController)
 //update

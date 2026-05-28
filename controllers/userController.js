@@ -49,9 +49,9 @@ exports.registerController = async(req,res)=>{
 
 exports.loginController = async(req,res)=>{
       console.log("Inside loginController");
-    
+       
     const {email,password} =req.body
-
+     console.log(req.body)
     if(!email|| !password){
          return res.status(400).json({
                 message: "All fields are required"
@@ -108,4 +108,17 @@ exports.getUserController = async(req,res)=>{
         message: "User fetched successfully",
         user: singleUser
     })
+}
+exports.logOutController = async(req,res)=>{
+    console.log("Inside logOutController")
+      res.clearCookie("token",
+         {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict"
+        })
+        res.status(200).json({
+            message: "Logout successful"
+        })
+
 }

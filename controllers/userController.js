@@ -84,8 +84,8 @@ exports.loginController = async(req,res)=>{
     // store token in cookie
     res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000
     })
        res.status(200).json({

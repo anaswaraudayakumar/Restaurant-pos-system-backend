@@ -10,7 +10,8 @@ require('./config/db')
 const server = express()
 //enable cors in server
 server.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173",
+        "https://restaurant-pos-system-frontend.vercel.app/"],
     credentials: true
 }))
 //parse json to js content

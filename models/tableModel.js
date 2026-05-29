@@ -8,7 +8,12 @@ const tableSchema = new mongoose.Schema({
     },
     status:{
         type:String,
+        enum: ["Available", "Booked"],
         default:"Available"
+    },
+    seats:{
+        type: Number,
+        required:true
     },
     currentOrder:{
         type: mongoose.Schema.Types.ObjectId,

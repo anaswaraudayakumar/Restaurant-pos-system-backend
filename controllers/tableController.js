@@ -3,7 +3,7 @@ const tables = require('../models/tableModel')
 //add table
 exports.addTableController = async (req, res) => {
     console.log("Inside addTableController");
-    const { tableNo } = req.body
+    const { tableNo,seats } = req.body
     if (!tableNo) {
         return res.status(404).json({
             message: "Please Provide Table No..."
@@ -17,7 +17,7 @@ exports.addTableController = async (req, res) => {
     }
     // create table
     const newTable = await tables.create({
-        tableNo
+        tableNo,seats
     })
     res.status(201).json({
         message: "Table added successfully",
@@ -28,10 +28,13 @@ exports.addTableController = async (req, res) => {
 //getTable
 exports.getTablesController = async(req,res)=>{
     console.log("Inside getTablesController");
-    const allTables =await tables.find()
+    const allTables =await tables.find().populate({
+        path:"currentOrder",
+        select:"customerDetails"
+    })
      res.status(200).json({
        message:"All tables got successfully",
-       orders: allTables
+       tables: allTables
      })
 }
 //updateTable

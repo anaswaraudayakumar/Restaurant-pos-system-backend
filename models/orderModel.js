@@ -13,6 +13,11 @@ const orderSchema = mongoose.Schema({
         type:Date,
         default:Date.now()
     },
+    paymentMethod:{
+   type:String,
+   required:true
+},
+
     bills:{
         total:{type:Number,required:true},
         tax:{type:Number,required:true},
@@ -23,5 +28,10 @@ const orderSchema = mongoose.Schema({
         ref:"orders"
     }
 },{timestamps:true})
+orderSchema.index(
+   { createdAt: 1 },
+   { expireAfterSeconds: 86400 }
+)
+
 const orders = mongoose.model("orders",orderSchema)
 module.exports = orders

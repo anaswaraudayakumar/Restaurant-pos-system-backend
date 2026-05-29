@@ -96,18 +96,21 @@ exports.loginController = async(req,res)=>{
 
 exports.getUserController = async(req,res)=>{
     console.log("Inside getUserController")
-    const {id} = req.params
-    const singleUser = await users.findById(id)
+     const userId = req.user.id  // comes from JWT middleware
 
-    if (!singleUser) {
+    const user = await users.findById(userId)
+
+    if (!user) {
         return res.status(404).json({
             message: "User not found"
         })
     }
+
     res.status(200).json({
-        message: "User fetched successfully",
-        user: singleUser
+        message: "Profile fetched successfully",
+        user
     })
+   
 }
 exports.logOutController = async(req,res)=>{
     console.log("Inside logOutController")

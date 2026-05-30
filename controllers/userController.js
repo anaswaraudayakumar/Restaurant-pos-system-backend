@@ -117,8 +117,8 @@ exports.logOutController = async(req,res)=>{
       res.clearCookie("token",
          {
             httpOnly: true,
-            secure: false,
-            sameSite: "strict"
+            secure: true,
+            sameSite: "None"
         })
         res.status(200).json({
             message: "Logout successful"

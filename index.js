@@ -11,7 +11,7 @@ const server = express()
 //enable cors in server
 server.use(cors({
     origin: ["http://localhost:5173",
-        "https://restaurant-pos-system-frontend.vercel.app"],
+        "https://restaurant-pos-system-frontend-8u2c.vercel.app/auth"],
     credentials: true
 }))
 //parse json to js content

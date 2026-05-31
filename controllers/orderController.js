@@ -1,5 +1,7 @@
 const orders = require('../models/orderModel')
 const validator = require("validator")
+const revenue = require('../models/revenueModel')
+
 
 //addOrder
 exports.addOrderController = async (req, res) => {
@@ -52,6 +54,25 @@ exports.addOrderController = async (req, res) => {
          },
          items
       })
+      //for order revenue detail
+      const today = newOrder.orderDate.toISOString().split("T")[0]
+      console.log("Revenue update started")
+      await revenue.findOneAndUpdate(
+         { date: today },
+         {
+            $inc: {
+               totalRevenue: newOrder.bills.totalWithTax,
+               totalOrders: 1
+            }
+         },
+         {
+            upsert: true,
+            new: true
+         }
+
+      )
+       console.log("Revenue update completed")
+
       res.status(201).json({
          message: "Order added successfully",
          order: newOrder
@@ -108,19 +129,46 @@ exports.updateOrderController = async (req, res) => {
       order: updateOrder
 
    })
-} 
+}
 
-exports.clearAllOrderController = async (req,res) =>{
+exports.clearAllOrderController = async (req, res) => {
    console.log("Inside clearAllOrderController");
    try {
       await orders.deleteMany({})
       res.status(200).json({
-         message:"All orders cleared succesfully"
+         message: "All orders cleared succesfully"
       })
    } catch (error) {
-       res.status(500).json({
-         message:"Failed to clear orders",
-         error:error.message
+      res.status(500).json({
+         message: "Failed to clear orders",
+         error: error.message
       })
    }
+}
+
+//get revenue 
+exports.getRevenueController = async(req,res)=>{
+   try{
+      const today = new Date().toISOString().split("T")[0]
+   const todayData = await revenue.findOne({date:today})
+   const overallData = await revenue.aggregate([
+      {
+         $group :{
+            _id:null,
+            totalRevenue:{$sum: "$totalRevenue"},
+            totalOrders:{$sum: "$totalOrders"}
+         }
+      }
+   ])
+   res.status(200).json({
+      totalRevenue: todayData?.totalRevenue ||0,
+      totalOrders:todayData?.totalOrders || 0,
+       overallRevenue: overallData[0]?.totalRevenue || 0,
+      overallOrders: overallData[0]?.totalOrders || 0
+   })
+}catch (error){
+   res.status(500).json({
+      message: error.message
+    })
+  }
 }

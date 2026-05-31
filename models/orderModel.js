@@ -11,7 +11,7 @@ const orderSchema = mongoose.Schema({
     },
     orderDate:{
         type:Date,
-        default:Date.now()
+        default:Date.now
     },
     paymentMethod:{
    type:String,

@@ -30,6 +30,10 @@ router.put("/one-order/:id",authMiddleware,orderController.updateOrderController
 //router for clear all test dta order
 router.delete("/clear-order",authMiddleware,orderController.clearAllOrderController)
 
+//router for get revenue 
+router.get("/revenue",authMiddleware,orderController.getRevenueController)
+
+
 // -----------------------------------------------------------------------------------------------------
 
 //table
